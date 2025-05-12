@@ -2,18 +2,18 @@
 ### Main goal:
 - [ ] Generate a basic map while accounting for stuff needed later.
 #### Checklist (for main goal):
-- [ ] virtual class for generic building called `Building`, containing
-    - [ ] unique ptr to `sf::Drawable obj` (probably another square) **OR** inherit the class from sf::Drawable, sf::Transformable
-    - [ ] `virtual void update() = 0;`
-        - [ ] takes an array of 4 structs as argument, 
-            - [ ] each struct consists of
-                - [ ] neighbor's enum `neighbor_direction` (left, right, up, down)
-                - [ ] neighbor's building type (`current_state` from `Tile`)
-        - [ ] updates the sprite of `obj` accordingly (or doesn't do anything)
+- [x] virtual class for generic building called `Building`, containing
+    - [x] unique ptr to `sf::Drawable obj` (probably another square) **OR** inherit the class from sf::Drawable, sf::Transformable
+    - [x] `virtual void update() = 0;`
+        - [x] takes an array of 4 structs as argument, 
+            - [x] each struct consists of
+                - [x] neighbor's enum `neighbor_direction` (left, right, up, down)
+                - [x] neighbor's building type (`current_state` from `Tile`)
+        - [x] updates the sprite of `obj` accordingly (or doesn't do anything)
 
-- [ ] Class Building will be used for:
-    - [ ] Roads
-    - [ ] Houses
+- [x] Class Building will be used for:
+    - [x] Roads
+    - [x] Houses
 
 - [ ] Class `Tile` consisting of 
     - [ ] a `sf::RectangleShape`
