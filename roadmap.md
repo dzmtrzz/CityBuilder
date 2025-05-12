@@ -15,12 +15,12 @@
     - [x] Roads
     - [x] Houses
 
-- [ ] Class `Tile` consisting of 
-    - [ ] a `sf::RectangleShape`
-    - [ ] an `enum current_state`(empty/road/house)
-    - [ ] unique ptr to `Building building` (initialised with nullptr)
-    - [ ] `void update()` that calls the update method of `building`, takes the same vector as `update()` from `Building`.
-    - [ ] setter for `building` (make sure to set current_state appropriately)
+- [x] Class `Tile` consisting of 
+    - [x] a `sf::RectangleShape`
+    - [x] an `enum current_state`(empty/road/house)
+    - [x] unique ptr to `Building building` (initialised with nullptr)
+    - [x] `void update()` that calls the update method of `building`, takes the same vector as `update()` from `Building`.
+    - [x] setter for `building` (make sure to set current_state appropriately)
 
 - [ ] Game class
     - [ ] Currently will contain basically boilerplate code
@@ -36,10 +36,10 @@
                 - for (int i = 0; i > 640; i+l)
                     - generate square with cordinates x=i, y=g
 
-    - [ ] enum build_state containing currently selected building to be placed
-        - [ ] None (initialised as)
-        - [ ] House
-        - [ ] Road
+    - [] enum build_state containing currently selected building to be placed
+        - [x] None (initialised as)
+        - [x] House
+        - [x] Road
 
 ## Post-beginning things
 These are the things that will be done after everything above. 

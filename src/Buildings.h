@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include "Data_types.h"
 #include <array>
@@ -5,9 +6,12 @@
 
 class Building {
     private:
-        std::unique_ptr<sf::Sprite> sprite;
+        const std::unique_ptr<sf::Sprite> sprite;
+        sf::Vector2f pos;
     public:
         virtual void update(std::array<Neighbor, 4>) = 0;
+        const sf::Sprite& getSprite() const {return *sprite;};
+        void setPos();
 };
 
 class Road : public Building {
