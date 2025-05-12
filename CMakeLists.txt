@@ -11,6 +11,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Find SFML
 find_package(SFML 2.6.2 COMPONENTS graphics window system REQUIRED)
 
-add_executable(CityBuilder src/main.cpp)
+add_executable(CityBuilder src/main.cpp src/init_world.cpp)
 target_link_libraries(CityBuilder sfml-graphics sfml-window sfml-system)
 

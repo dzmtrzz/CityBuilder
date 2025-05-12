@@ -1,6 +1,6 @@
 ## Beginning
 ### Main goal:
-- [ ] Generate a basic map while accounting for stuff needed later.
+- [x] Generate a basic map while accounting for stuff needed later.
 #### Checklist (for main goal):
 - [x] virtual class for generic building called `Building`, containing
     - [x] unique ptr to `sf::Drawable obj` (probably another square) **OR** inherit the class from sf::Drawable, sf::Transformable
@@ -23,7 +23,7 @@
     - [x] setter for `building` (make sure to set current_state appropriately)
 
 - [x] Game class
-    - [ ] Currently will contain basically boilerplate code
+    - [x] Currently will contain basically boilerplate code
     - [x] Will have an array of (n*n) unique pointers to `Tile` objects (a vector because an array turned out to be impossible)
         - [x] n will be defined in the constructor
     - [x] Method init_world() that
@@ -45,7 +45,7 @@
 These are the things that will be done after everything above. 
 - [ ] Game class
     - [ ] Logic
-        - [ ] Add logic for highlighting the tile mouse is hovering over
+        - [x] Add logic for highlighting the tile mouse is hovering over
         - [ ] On mouse click, if hovering over a tile create the appropriate building.
         - [ ] Add ability to switch between the states of `build_state` 
 

@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/VideoMode.hpp>
 #include <string>
 #include <vector>
 #include "Data_types.h"
@@ -8,8 +10,9 @@
 
 class Game {
     private:
-        sf::Vector2f GameRes;
+        sf::VideoMode GameRes;
         std::string GameTitle;
+        sf::RenderWindow window = sf::RenderWindow(GameRes, GameTitle);
 
         const int tilesPerRow;
         std::vector<std::unique_ptr<Tile>> tileGrid;
@@ -18,9 +21,10 @@ class Game {
 
         void render();
         void inputHandler();
+        void logic();
 
         void init_world(sf::Vector2f size);
     public:
-        explicit Game(int n) : tilesPerRow(n) {};
+        explicit Game(sf::VideoMode resolution, std::string title, int n) : GameRes(resolution), GameTitle(title), tilesPerRow(n) {};
         int run();
 };
