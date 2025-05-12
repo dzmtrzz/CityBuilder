@@ -22,21 +22,21 @@
     - [x] `void update()` that calls the update method of `building`, takes the same vector as `update()` from `Building`.
     - [x] setter for `building` (make sure to set current_state appropriately)
 
-- [ ] Game class
+- [x] Game class
     - [ ] Currently will contain basically boilerplate code
-    - [ ] Will have an array of (n*n) unique pointers to `Tile` objects
-        - [ ] n will be defined in the constructor
-    - [ ] Method init_world() that
-        - [ ] Generates a grid of `Tile` objects by
+    - [x] Will have an array of (n*n) unique pointers to `Tile` objects (a vector because an array turned out to be impossible)
+        - [x] n will be defined in the constructor
+    - [x] Method init_world() that
+        - [x] Generates a grid of `Tile` objects by
             - take a general square area (for example 640 by 640 pixels)
             - take n amount of subdivisions
             - int l = $\frac{640}{n}$ will be length of a side
             - int g = 0
-            - for (int m = 0; m > 640; m+l)
-                - for (int i = 0; i > 640; i+l)
+            - for (int m = 0; m < 640; m+l)
+                - for (int i = 0; i < 640; i+l)
                     - generate square with cordinates x=i, y=g
 
-    - [] enum build_state containing currently selected building to be placed
+    - [x] enum build_state containing currently selected building to be placed
         - [x] None (initialised as)
         - [x] House
         - [x] Road
