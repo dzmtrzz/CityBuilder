@@ -19,7 +19,7 @@ class Game {
         const int tilesPerRow;
         std::vector<std::unique_ptr<Tile>> tileGrid;
         void init_world(sf::Vector2f size);
-        std::array<Neighbor, 4> get_neighbors(std::vector<std::unique_ptr<Tile>>::const_iterator iter);
+        std::array<Neighbor, 4> get_neighbors(std::vector<std::unique_ptr<Tile>>::const_iterator iter) const; //probably should become public
 
         Building_Current selectedBuildingType = Building_Current::None;
 

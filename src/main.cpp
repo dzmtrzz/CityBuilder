@@ -8,22 +8,12 @@
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <array>
-#include <iostream>
-#include <ostream>
 #include <vector>
 
-Tile::Tile(sf::Vector2f pos, sf::Vector2f size) : pos(pos), size(size) {
-    tile->setSize(size);
-    tile->setPosition(pos);
-    tile->setFillColor(sf::Color::Green);
-    tile->setOutlineColor(sf::Color::Black);
-
-};
 
 void Game::inputHandler() {
     sf::Event event;
-    while (window.pollEvent(event))
-    {
+    while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed)
             window.close();
         if (event.type == event.MouseButtonPressed)
@@ -34,7 +24,7 @@ void Game::inputHandler() {
                     for (const auto& tile : tileGrid) {
                         if (tile->getTile().getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
                             std::array<Neighbor, 4> a = get_neighbors(tileGrid.begin() + idx);
-                            std::cout << static_cast<int>(a[0].direction) << static_cast<int>(a[1].direction) << static_cast<int>(a[2].direction) << static_cast<int>(a[3].direction) << std::endl;
+                            tile->setState(selectedBuildingType);
                         }
                         idx += 1;
                     }
@@ -43,8 +33,20 @@ void Game::inputHandler() {
                 default:
                     break;
             }
-        } 
-    }
+        if (event.type == event.KeyPressed) {
+            switch (event.key.code) {
+                case (sf::Keyboard::Key::W) :
+                    selectedBuildingType = Building_Current::House;
+                    break;
+                case (sf::Keyboard::Key::Q) :
+                    selectedBuildingType = Building_Current::None;
+                    break;
+                default:
+                    break;
+            }
+        }
+    } 
+}
 
 
 void Game::render() {
@@ -52,6 +54,8 @@ void Game::render() {
     
     for (const auto& tile : tileGrid) {
         window.draw(tile->getTile());
+        if (tile->getState() == Building_Current::House)
+            window.draw(tile->getBuildingSprite());
     }
 
     window.display();
@@ -61,7 +65,7 @@ void Game::logic() {
     sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
     for (const auto& tile : tileGrid) {
         if (tile->getTile().getGlobalBounds().contains(mousePos)) {
-            tile->getTile().setOutlineThickness(-10);
+            tile->getTile().setOutlineThickness(-5);
         } else tile->getTile().setOutlineThickness(0);
     }
 }

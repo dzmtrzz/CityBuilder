@@ -57,8 +57,8 @@ These are the things that will be done after everything above.
     - [ ] Implement `update()`
         - [ ] SHOULD connect roads
 
-- [ ] Houses
-    - [ ] `update()` shouldn't do anything yet.
+- [x] Houses
+    - [x] `update()` shouldn't do anything yet.
 
 - [ ] Render
     - [ ] Should render objects in the following order:
