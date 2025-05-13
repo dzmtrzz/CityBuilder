@@ -1,6 +1,7 @@
 #pragma once
 
 enum class Direction {
+    Null,
     Left,
     Right,
     Up,
@@ -10,10 +11,10 @@ enum class Direction {
 enum class Building_Current {
     None,
     Road,
-    House
+    House,
 };
 
 struct Neighbor {
-    const Direction direction;
-    const Building_Current building;
+    Direction direction;
+    Building_Current building;
 };

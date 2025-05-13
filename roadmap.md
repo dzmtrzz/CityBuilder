@@ -49,8 +49,8 @@ These are the things that will be done after everything above.
         - [ ] On mouse click, if hovering over a tile create the appropriate building.
         - [ ] Add ability to switch between the states of `build_state` 
 
-    - [ ] Write a member function that checks tiles near a tile `get_neighbors(shared_ptr tile)`
-        - [ ] returns an array of 4 structs mentioned in the `Building` class's `update()` function.
+    - [x] Write a member function that checks tiles near a tile `get_neighbors(shared_ptr tile)` (used an iterator)
+        - [x] returns an array of 4 structs mentioned in the `Building` class's `update()` function.
         - [ ] Use for `Tile::update()`
 
 - [ ] Roads
