@@ -21,7 +21,7 @@ class Tile {
         static void init_texture(const std::string& path);
 
         explicit Tile(sf::Vector2f pos, sf::Vector2f size);
-        void update(std::array<Neighbor, 4> neighbor_tiles) {building->update(neighbor_tiles);};
+        void update(std::array<Neighbor, 4> neighbor_tiles) {if (building != nullptr) building->update(neighbor_tiles);};
 
         Building_Current getState() const {return state;};
         void setState(Building_Current new_state); // make sure to change `building` along with state

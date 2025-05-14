@@ -21,10 +21,11 @@ void Game::inputHandler() {
                 case (sf::Mouse::Left):
                     {
                     int idx = 0;
-                    for (const auto& tile : tileGrid) {
+                    for (const auto& tile : world.getTileGrid()) {
                         if (tile->getTile().getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
-                            std::array<Neighbor, 4> a = get_neighbors(tileGrid.begin() + idx);
+                            std::array<Neighbor, 4> a = world.get_neighbors(world.getTileGrid().begin() + idx);
                             tile->setState(selectedBuildingType);
+                            tile->update(a);
                         }
                         idx += 1;
                     }
@@ -41,6 +42,9 @@ void Game::inputHandler() {
                 case (sf::Keyboard::Key::Q) :
                     selectedBuildingType = Building_Current::None;
                     break;
+                case (sf::Keyboard::Key::E) :
+                    selectedBuildingType = Building_Current::Road;
+                    break;
                 default:
                     break;
             }
@@ -52,10 +56,12 @@ void Game::inputHandler() {
 void Game::render() {
     window.clear();
     
-    for (const auto& tile : tileGrid) {
+    for (const auto& tile : world.getTileGrid()) {
         window.draw(tile->getTile());
         if (tile->getState() == Building_Current::House)
             window.draw(tile->getBuildingSprite());
+        if (tile->getState() == Building_Current::Road)
+            window.draw(tile->getBuildingSprite()); 
     }
 
     window.display();
@@ -63,7 +69,7 @@ void Game::render() {
 
 void Game::logic() {
     sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-    for (const auto& tile : tileGrid) {
+    for (const auto& tile : world.getTileGrid()) {
         if (tile->getTile().getGlobalBounds().contains(mousePos)) {
             tile->getTile().setOutlineThickness(-5);
         } else tile->getTile().setOutlineThickness(0);
@@ -71,7 +77,7 @@ void Game::logic() {
 }
 
 int Game::run() {
-    init_world(sf::Vector2f(GameRes.width, GameRes.height));
+    world.init_world(sf::Vector2f(GameRes.width, GameRes.height));
 
     while (window.isOpen())
     {
