@@ -36,11 +36,11 @@ void Game::inputHandler() {
             }
         if (event.type == event.KeyPressed) {
             switch (event.key.code) {
-                case (sf::Keyboard::Key::W) :
-                    selectedBuildingType = Building_Current::House;
-                    break;
                 case (sf::Keyboard::Key::Q) :
                     selectedBuildingType = Building_Current::None;
+                    break;
+                case (sf::Keyboard::Key::W) :
+                    selectedBuildingType = Building_Current::House;
                     break;
                 case (sf::Keyboard::Key::E) :
                     selectedBuildingType = Building_Current::Road;
@@ -97,7 +97,7 @@ int Game::run() {
 }
 
 int main() {
-    Game game(sf::VideoMode(1440, 1440), "CityBuilder", 20);
+    Game game(sf::VideoMode(1440, 1440), "CityBuilder", 15);
 
     game.run();
     return 0;
