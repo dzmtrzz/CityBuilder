@@ -43,25 +43,25 @@
 
 ## Post-beginning things
 These are the things that will be done after everything above. 
-- [ ] Game class
-    - [ ] Logic
+- [x] Game class
+    - [x] Logic
         - [x] Add logic for highlighting the tile mouse is hovering over
-        - [ ] On mouse click, if hovering over a tile create the appropriate building.
-        - [ ] Add ability to switch between the states of `build_state` 
+        - [x] On mouse click, if hovering over a tile create the appropriate building.
+        - [x] Add ability to switch between the states of `build_state` 
 
     - [x] Write a member function that checks tiles near a tile `get_neighbors(shared_ptr tile)` (used an iterator)
         - [x] returns an array of 4 structs mentioned in the `Building` class's `update()` function.
         - [ ] Use for `Tile::update()`
 
-- [ ] Roads
-    - [ ] Implement `update()`
-        - [ ] SHOULD connect roads
+- [x] Roads
+    - [x] Implement `update()`
+        - [x] SHOULD connect roads
 
 - [x] Houses
     - [x] `update()` shouldn't do anything yet.
 
-- [ ] Render
-    - [ ] Should render objects in the following order:
+- [x] Render
+    - [x] Should render objects in the following order:
         - Tiles
         - Roads
         - Houses

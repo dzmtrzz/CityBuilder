@@ -22,11 +22,11 @@ void Game::inputHandler() {
                     {
                     int idx = 0;
                     for (const auto& tile : world.getTileGrid()) {
+                        std::array<Neighbor, 4> a = world.get_neighbors(world.getTileGrid().begin() + idx);
                         if (tile->getTile().getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
-                            std::array<Neighbor, 4> a = world.get_neighbors(world.getTileGrid().begin() + idx);
                             tile->setState(selectedBuildingType);
-                            tile->update(a);
                         }
+                        tile->update(a);
                         idx += 1;
                     }
                     }
@@ -69,10 +69,17 @@ void Game::render() {
 
 void Game::logic() {
     sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+    
+    int idx = 0;
     for (const auto& tile : world.getTileGrid()) {
         if (tile->getTile().getGlobalBounds().contains(mousePos)) {
             tile->getTile().setOutlineThickness(-5);
         } else tile->getTile().setOutlineThickness(0);
+
+        std::array<Neighbor, 4> a = world.get_neighbors(world.getTileGrid().begin() + idx);
+        tile->update(a);
+
+        idx++;
     }
 }
 
@@ -90,7 +97,7 @@ int Game::run() {
 }
 
 int main() {
-    Game game(sf::VideoMode(640, 640), "CityBuilder", 10);
+    Game game(sf::VideoMode(1440, 1440), "CityBuilder", 20);
 
     game.run();
     return 0;

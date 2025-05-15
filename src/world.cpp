@@ -50,9 +50,9 @@ void Road::update(std::array<Neighbor, 4> arr) {
 
     else if (neighborRoads == 3) {
         sprite->setTexture(road_textures[2]); //tshape
-        if (directions[3] != 0 && directions[2] == 0) // if road down and no road up rotate 270
+        if (directions[2] != 0 && directions[3] == 0) // if road down and no road up rotate 270
             sprite->setRotation(90*3);
-        else if (directions[2] != 0 && directions[3] == 0) // if inverse rotate 90
+        else if (directions[3] != 0 && directions[2] == 0) // if inverse rotate 90
             sprite->setRotation(90);
         else if (directions[0] != 0) // if road on the left (but no road on the right because thats impossible) rotate 180 
             sprite->setRotation(90*2);
@@ -66,33 +66,46 @@ void Road::update(std::array<Neighbor, 4> arr) {
             sprite->setRotation(90);
         } else if (directions[2] != 0 && directions[3] != 0) {
             sprite->setTexture(road_textures[0]);
+            sprite->setRotation(0);
         } else if (directions[2] != 0 && directions[1] != 0) { // U/R
             sprite->setTexture(road_textures[1]); // corner
+            sprite->setRotation(0);
         } else if (directions[2] != 0 && directions[0] != 0) { // U/L
             sprite->setTexture(road_textures[1]);
-            sprite->setRotation(90);
+            sprite->setRotation(90*3);
         } else if (directions[0] != 0 && directions[3] != 0) { // L/D
             sprite->setTexture(road_textures[1]);
             sprite->setRotation(90*2);
         } else {                                               // R/D
             sprite->setTexture(road_textures[1]);
-            sprite->setRotation(90*3);
+            sprite->setRotation(90);
+        }
+    }
+
+    else if (neighborRoads == 1) {
+        sprite->setTexture(road_textures[0]);
+        if (directions[0] != 0 || directions[1] != 0) {
+            sprite->setRotation(90);
+        } else {
+            sprite->setRotation(0);
         }
     }
 
     else {
         sprite->setTexture(road_textures[0]);
     }
+
+
+
+    sprite->setOrigin(sprite->getLocalBounds().width/2, sprite->getLocalBounds().height/2); 
+
 }
 
 Road::Road(sf::Vector2f pos, sf::Vector2f size) {
     tilePos = pos; tileSize = size;
 
-
-    sprite->setPosition(pos);
+    sprite->setPosition({pos.x + size.x/2, pos.y + size.y/2});
     sprite->setScale({size.x / 100, size.y / 100});
-//    sprite->setOrigin({size.x/2, size.y/2}); 
-//    sprite->setRotation((90*(random()%4))); 
 }
 
 House::House(sf::Vector2f pos, sf::Vector2f size) {
@@ -104,10 +117,10 @@ House::House(sf::Vector2f pos, sf::Vector2f size) {
     
 
     sprite->setTexture(*texture);
-    sprite->setPosition(pos);
+    sprite->setPosition({pos.x + size.x/2, pos.y + size.y/2});
     sprite->setScale({size.x / texture->getSize().x, size.y / texture->getSize().y});
-//    sprite->setOrigin({size.x/2, size.y/2}); 
-//    sprite->setRotation((90*(random()%4))); 
+    sprite->setOrigin(sprite->getLocalBounds().width/2, sprite->getLocalBounds().height/2); 
+    sprite->setRotation((90*(random()%4))); 
 
     //update(std::array<Neighbor, 4>) // yea
 }
