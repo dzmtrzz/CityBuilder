@@ -51,7 +51,7 @@ These are the things that will be done after everything above.
 
     - [x] Write a member function that checks tiles near a tile `get_neighbors(shared_ptr tile)` (used an iterator)
         - [x] returns an array of 4 structs mentioned in the `Building` class's `update()` function.
-        - [ ] Use for `Tile::update()`
+        - [x] Use for `Tile::update()`
 
 - [x] Roads
     - [x] Implement `update()`
@@ -67,10 +67,4 @@ These are the things that will be done after everything above.
         - Houses
 
 ## Post-post-beginning things
-This is basically the final step, it's definitely the hardest one and probably the final one, unless i want to implement terrain generation at some point
-- [ ] Implement a 2.5D perspective, like in OpenTTD. (Dimetric projection, but no need for rendering the sides of tiles, only the top.)
-    - [ ] WILL likely require a rewrite of `Game::get_neighbors()`
-    - [ ] WILL require VERY different positioning of the `Building` drawables.
-    - [ ] WILL DEFINITELY require a bit of messing with it to get mouse detection working fine
-
-- [ ] Take a look at/Add OpenGFX from OpenTTD for buildings, roads, tiles. 
+idk

@@ -11,7 +11,7 @@ void Tile::init_texture(const std::string &path) {
 }
 
 Tile::Tile(sf::Vector2f pos, sf::Vector2f size) : pos(pos), size(size) {
-    init_texture("grass.png"); //TODO: move from constructor.
+    init_texture("assets/grass.png"); //TODO: move from constructor.
     tile->setSize(size);
     tile->setPosition(pos);
     tile->setTexture(&tileTexture);

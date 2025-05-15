@@ -29,7 +29,7 @@ void Road::update(std::array<Neighbor, 4> arr) {
         
     }
 
-    load_textures("road-s.png", "road-c.png", "road-4.png", "road-3.png");
+    load_textures("assets/road-s.png", "assets/road-c.png", "assets/road-4.png", "assets/road-3.png");
 
     if (neighborRoads == 4) {
         sprite->setTexture(road_textures[3]); 
@@ -100,7 +100,7 @@ House::House(sf::Vector2f pos, sf::Vector2f size) {
     
     //TODO: move out of constructor, probably make a static(?) | maybe a static array for different house textures?
     texture = std::make_shared<sf::Texture>();
-    texture->loadFromFile("house.png", sf::IntRect(0, 0, 100, 100));
+    texture->loadFromFile("assets/house.png", sf::IntRect(0, 0, 100, 100));
     
 
     sprite->setTexture(*texture);
