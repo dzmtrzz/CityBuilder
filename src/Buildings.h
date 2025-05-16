@@ -17,7 +17,7 @@ class Building {
         virtual ~Building() = default;
         virtual void update(std::array<Neighbor, 4>) = 0;
         void setPosSize(sf::Vector2f pos, sf::Vector2f size);
-        const sf::Sprite& getSprite() const {return *sprite;};
+        [[nodiscard]] const sf::Sprite& getSprite() const {return *sprite;};
         void setPos();
 };
 
@@ -38,5 +38,5 @@ class House : public Building {
     public:
         House(sf::Vector2f pos, sf::Vector2f size);
         ~House() = default;
-        void update(std::array<Neighbor, 4>) {return;};
+        void update(std::array<Neighbor, 4>) override {};
 };
