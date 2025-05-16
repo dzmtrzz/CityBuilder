@@ -97,7 +97,7 @@ int Game::run() {
 }
 
 int main() {
-    Game game(sf::VideoMode(1440, 1440), "CityBuilder", 15);
+    Game game(sf::VideoMode(960, 960), "CityBuilder", 10);
 
     game.run();
     return 0;
