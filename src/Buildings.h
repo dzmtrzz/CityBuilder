@@ -10,7 +10,6 @@
 class Building {
     protected:
         const std::unique_ptr<sf::Sprite> sprite = std::make_unique<sf::Sprite>();
-        std::shared_ptr<sf::Texture> texture; //TODO: remove
         sf::Vector2f tilePos;
         sf::Vector2f tileSize;
     public:
@@ -34,8 +33,9 @@ class Road : public Building {
 
 class House : public Building {
     private:
-        // add house type or smth like that
+        static sf::Texture texture;
     public:
+        static void init_texture(const std::string& path);
         House(sf::Vector2f pos, sf::Vector2f size);
         ~House() = default;
         void update(std::array<Neighbor, 4>) override {};

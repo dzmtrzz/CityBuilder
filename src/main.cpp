@@ -142,6 +142,8 @@ void Game::logic() {
 }
 
 int Game::run() {
+    Tile::init_texture("assets/grass.png");
+
     world.init_world(sf::Vector2f(GameRes.width, GameRes.height));
 
     buttons.push_back(std::make_unique<Button>(sf::Vector2f(0, GameRes.height-30), sf::Vector2f(30, 30), std::function<void(Game&)>([](Game& game) {game.setCurrentBuildingType(Building_Current::None);})));
@@ -152,6 +154,8 @@ int Game::run() {
 
     buttons.push_back(std::make_unique<Button>(sf::Vector2f(30*2, GameRes.height-30), sf::Vector2f(30, 30), std::function<void(Game&)>([](Game& game) {game.setCurrentBuildingType(Building_Current::Road);})));
     buttons[2]->init_texture("assets/road-s.png", sf::IntRect(0, 0, 100, 100));
+
+    House::init_texture("assets/house.png");
 
     while (window.isOpen())
     {

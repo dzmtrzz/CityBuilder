@@ -5,6 +5,8 @@
 bool Road::areTexturesLoaded = false;
 std::array<sf::Texture, 4> Road::road_textures;
 
+sf::Texture House::texture;
+
 void Road::load_textures(const std::string &straight, const std::string &corner, const std::string &intersection, const std::string &tshape) {
     sf::IntRect area = sf::IntRect(0, 0, 100, 100);
     if (!areTexturesLoaded) {
@@ -96,17 +98,18 @@ Road::Road(sf::Vector2f pos, sf::Vector2f size) {
     sprite->setScale({size.x / 100, size.y / 100});
 }
 
+void House::init_texture(const std::string& path) {
+    if (!texture.loadFromFile(path)) {
+        throw std::runtime_error("Could not load house texture");
+    }
+}
+
 House::House(sf::Vector2f pos, sf::Vector2f size) {
     tilePos = pos; tileSize = size;
-    
-    //TODO: move out of constructor, probably make a static(?) | maybe a static array for different house textures?
-    texture = std::make_shared<sf::Texture>();
-    texture->loadFromFile("assets/house.png", sf::IntRect(0, 0, 100, 100));
-    
 
-    sprite->setTexture(*texture);
+    sprite->setTexture(texture);
     sprite->setPosition({pos.x + size.x/2, pos.y + size.y/2});
-    sprite->setScale({size.x / texture->getSize().x, size.y / texture->getSize().y});
+    sprite->setScale({size.x / texture.getSize().x, size.y / texture.getSize().y});
     sprite->setOrigin(sprite->getLocalBounds().width/2, sprite->getLocalBounds().height/2); 
     sprite->setRotation((90*(random()%4))); 
 
