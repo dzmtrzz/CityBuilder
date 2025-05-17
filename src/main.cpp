@@ -57,11 +57,17 @@ void Game::inputHandler() {
 
                     int idx = 0;
                     for (const auto& tile : world.getTileGrid()) {
-                        std::array<Neighbor, 4> a = world.get_neighbors(world.getTileGrid().begin() + idx);
                         if (tile->getTile().getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
+                            std::array<Neighbor, 4> a = world.get_neighbors(world.getTileGrid().begin() + idx);
                             tile->setState(selectedBuildingType);
+                            tile->update(a);
+
+                            for (const auto& neighbor : a) {
+                                if (neighbor.tile != nullptr) {
+                                    neighbor.tile->update(world.get_neighbors(neighbor.it));
+                                }
+                            }
                         }
-                        tile->update(a);
                         idx += 1;
                     }
                     }
@@ -126,17 +132,11 @@ void Game::uilogic() {
 void Game::logic() {
     sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
-    int idx = 0;
+
     for (const auto& tile : world.getTileGrid()) {
         if (tile->getTile().getGlobalBounds().contains(mousePos)) {
             tile->getTile().setOutlineThickness(-5);
         } else tile->getTile().setOutlineThickness(0);
-
-        //TODO: Probably shouldn't update EVERY SINGLE TILE.
-        std::array<Neighbor, 4> a = world.get_neighbors(world.getTileGrid().begin() + idx);
-        tile->update(a);
-
-        idx++;
     }
 
 }

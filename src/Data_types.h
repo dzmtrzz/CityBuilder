@@ -1,4 +1,7 @@
 #pragma once
+#include <vector>
+#include <memory>
+class Tile;
 
 enum class Direction {
     Null,
@@ -11,10 +14,12 @@ enum class Direction {
 enum class Building_Current {
     None,
     Road,
-    House,
+    House
 };
 
 struct Neighbor {
     Direction direction;
-    Building_Current building;
+    // Building_Current building;
+    Tile *tile = nullptr;
+    std::vector<std::unique_ptr<Tile>>::const_iterator it;
 };

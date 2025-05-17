@@ -1,4 +1,5 @@
 #include "Buildings.h"
+#include "Tile.h"
 
 
 bool Road::areTexturesLoaded = false;
@@ -21,7 +22,7 @@ void Road::update(std::array<Neighbor, 4> arr) {
 
     for (Neighbor& n : arr) {
         if (n.direction != Direction::Null) {
-            if (n.building == Building_Current::Road) {
+            if (n.tile->getState() == Building_Current::Road) {
                 neighborRoads++;
                 directions[static_cast<char>(n.direction) - 1] = static_cast<char>(n.direction); // Directions are in the form of [left, right, up, down], if direction[0] == 0 - no road on the left. otherwise yes road on the left. 
             }

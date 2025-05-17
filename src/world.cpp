@@ -19,19 +19,19 @@ std::array<Neighbor, 4> GameWorld::get_neighbors(std::vector<std::unique_ptr<Til
     int idx = static_cast<int>(iter - tileGrid.begin());
 
     std::array<Neighbor, 4> arr;
-    std::fill(arr.begin(), arr.end(), Neighbor{Direction::Null, Building_Current::None});
+    std::fill(arr.begin(), arr.end(), Neighbor{Direction::Null, nullptr, tileGrid.end()});
 
     if ((idx%tilesPerRow) < tilesPerRow-1) {
-        arr[0] = Neighbor{Direction::Right, (iter+1)->get()->getState()};
+        arr[0] = Neighbor{Direction::Right, (iter+1)->get(), (iter+1)};
     }
     if ((idx%tilesPerRow) != 0) {
-        arr[1] = Neighbor{Direction::Left, (iter-1)->get()->getState()};
+        arr[1] = Neighbor{Direction::Left, (iter-1)->get(), (iter-1)};
     }
     if (idx >= tilesPerRow) {
-        arr[2] = Neighbor{Direction::Up, (iter-tilesPerRow)->get()->getState()};
+        arr[2] = Neighbor{Direction::Up, (iter-tilesPerRow)->get(), (iter-tilesPerRow)};
     }
     if (idx <= (tilesPerRow*tilesPerRow-tilesPerRow-1)) {
-        arr[3] = Neighbor{Direction::Down, (iter+tilesPerRow)->get()->getState()};
+        arr[3] = Neighbor{Direction::Down, (iter+tilesPerRow)->get(), (iter+tilesPerRow)};
     }
 
 
