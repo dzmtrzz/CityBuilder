@@ -30,8 +30,11 @@ class Game {
 
         GameWorld world;
         std::vector<std::unique_ptr<Button>> buttons;
+        std::vector<std::unique_ptr<TextElement>> text_elements;
 
         Building_Current selectedBuildingType = Building_Current::None;
+
+        int money=500;
 
         void render();
         void inputHandler();

@@ -8,9 +8,11 @@
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <array>
+#include <format>
 #include <utility>
 #include <vector>
 
+sf::Font TextElement::m_font;
 
 Button::Button(sf::Vector2f buttonPos, sf::Vector2f buttonDim, std::function<void(Game&)> onClick) : on_click(std::move(onClick)) {
     button->setPosition(buttonPos);
@@ -35,7 +37,23 @@ void Button::update(bool is_selected) {
     }
 }
 
+void TextElement::load_font(const std::string& path) {
+    m_font.loadFromFile(path);
+}
 
+TextElement::TextElement(const std::string &primary, const std::string &secondary, sf::Vector2f position) : primary_text(primary), secondary_text(secondary) {
+    std::string text = std::format("{} {}", primary, secondary);
+    m_text.setFont(m_font);
+    m_text.setString(text);
+    m_text.setPosition(position);
+    m_text.setCharacterSize(10);
+    m_text.setFillColor(sf::Color::Black);
+}
+
+void TextElement::update() {
+    std::string text = std::format("{} {}", primary_text, secondary_text);
+    m_text.setString(text);
+}
 
 void Game::inputHandler() {
     sf::Event event;
@@ -59,8 +77,20 @@ void Game::inputHandler() {
                     for (const auto& tile : world.getTileGrid()) {
                         if (tile->getTile().getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
                             std::array<Neighbor, 4> a = world.get_neighbors(world.getTileGrid().begin() + idx);
-                            tile->setState(selectedBuildingType);
+                            if ((money >= 50 && selectedBuildingType == Building_Current::House) || (money >= 10 && selectedBuildingType == Building_Current::Road) || (selectedBuildingType == Building_Current::None)) {
+                                tile->setState(selectedBuildingType);
+                                if (selectedBuildingType == Building_Current::House)
+                                    money -= 50;
+                                else if (selectedBuildingType == Building_Current::Road)
+                                    money -= 10;
+                            }
+
+                            //TODO: make an actually good impl of ts, use maps i think?
+
                             tile->update(a);
+
+                            text_elements[0]->setSecondaryText(std::format("{}", money));
+                            text_elements[0]->update();
 
                             for (const auto& neighbor : a) {
                                 if (neighbor.tile != nullptr) {
@@ -109,6 +139,8 @@ void Game::render() {
         window.draw(button->get_drawable());
     }
 
+    window.draw(text_elements[0]->get_drawable());
+
     window.display();
 }
 
@@ -156,6 +188,10 @@ int Game::run() {
     buttons[2]->init_texture("assets/road-s.png", sf::IntRect(0, 0, 100, 100));
 
     House::init_texture("assets/house.png");
+
+    TextElement::load_font("assets/Roboto-Regular.ttf");
+
+    text_elements.push_back(std::make_unique<TextElement>("Money amount:", std::format("{}", money), sf::Vector2f(0,0)));
 
     while (window.isOpen())
     {

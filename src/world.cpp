@@ -15,7 +15,7 @@ void GameWorld::init_world(sf::Vector2f size) {
 }
 
 // i am not proud of this implementation
-std::array<Neighbor, 4> GameWorld::get_neighbors(std::vector<std::unique_ptr<Tile>>::const_iterator iter) const {
+std::array<Neighbor, 4> GameWorld::get_neighbors(std::vector<std::unique_ptr<Tile>>::const_iterator iter) const { //theres a weird bug where at 50*x + 25 neighboring tiles are offset by x+1, this function is probably the culprit
     int idx = static_cast<int>(iter - tileGrid.begin());
 
     std::array<Neighbor, 4> arr;
