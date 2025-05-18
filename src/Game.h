@@ -35,6 +35,10 @@ class Game {
         Building_Current selectedBuildingType = Building_Current::None;
 
         int money=500;
+        std::map<Building_Current, int> BuildCost {
+            {Building_Current::House, 50},
+            {Building_Current::Road, 10},
+        };
 
         void render();
         void inputHandler();

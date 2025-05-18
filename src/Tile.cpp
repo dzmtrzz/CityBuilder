@@ -18,7 +18,7 @@ Tile::Tile(sf::Vector2f pos, sf::Vector2f size) : pos(pos), size(size) {
 };
 
 void Tile::setState(Building_Current new_state) {
-    if (new_state == state) return;
+    if (new_state == state) return; // this check is redundant but whatever
 
     state = new_state;
     if (new_state == Building_Current::Road) {

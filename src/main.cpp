@@ -77,17 +77,20 @@ void Game::inputHandler() {
                     for (const auto& tile : world.getTileGrid()) {
                         if (tile->getTile().getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
                             std::array<Neighbor, 4> a = world.get_neighbors(world.getTileGrid().begin() + idx);
-                            if ((money >= 50 && selectedBuildingType == Building_Current::House) || (money >= 10 && selectedBuildingType == Building_Current::Road) || (selectedBuildingType == Building_Current::None)) {
-                                tile->setState(selectedBuildingType);
-                                if (selectedBuildingType == Building_Current::House)
-                                    money -= 50;
-                                else if (selectedBuildingType == Building_Current::Road)
-                                    money -= 10;
+
+
+                            if (selectedBuildingType != tile->getState()) {
+                                if (selectedBuildingType == Building_Current::None) {
+                                    money += BuildCost[tile->getState()]/2;
+                                    tile->setState(selectedBuildingType);
+                                } else if (money >= BuildCost[selectedBuildingType]) {
+                                    tile->setState(selectedBuildingType);
+                                    money -= BuildCost[selectedBuildingType];
+                                }
+
+                                tile->update(a);
                             }
 
-                            //TODO: make an actually good impl of ts, use maps i think?
-
-                            tile->update(a);
 
                             text_elements[0]->setSecondaryText(std::format("{}", money));
                             text_elements[0]->update();
