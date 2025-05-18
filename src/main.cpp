@@ -38,15 +38,13 @@ void Game::inputHandler() {
 
 
                             if (selectedBuildingType != tile->getState()) {
-                                if (selectedBuildingType == Building_Current::None) {
+                                if (money + BuildCost[tile->getState()]/2 >= BuildCost[selectedBuildingType]) {
                                     money += BuildCost[tile->getState()]/2;
                                     tile->setState(selectedBuildingType);
-                                } else if (money >= BuildCost[selectedBuildingType]) {
-                                    tile->setState(selectedBuildingType);
                                     money -= BuildCost[selectedBuildingType];
-                                }
 
-                                tile->update(a);
+                                    tile->update(a);
+                                }
                             }
 
                             for (const auto& neighbor : a) {

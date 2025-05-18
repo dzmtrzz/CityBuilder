@@ -39,6 +39,7 @@ class Game {
         std::map<Building_Current, int> BuildCost {
             {Building_Current::House, 50},
             {Building_Current::Road, 10},
+            {Building_Current::None, 0}
         };
 
         void render();
