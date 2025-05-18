@@ -1,5 +1,7 @@
 #pragma once
 #include <functional>
+#include <SFML/Graphics.hpp>
+#include <memory>
 
 class Game; //this feels wrong
 
