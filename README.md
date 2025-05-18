@@ -15,6 +15,7 @@ Building is done via CMake, the only required dependency is SFML-devel.
 # Screenshot:
 <kbd><img src="screenshot.png" alt="The game" border=""></kbd>
 
-# Licence
+# Licensing
 This project is licensed under the BSD 3-clause License. See [LICENSE](./LICENSE).\
-All the artwork in the `assets/` directory is public domain.
+All the artwork in the `assets/` directory is public domain, unless stated otherwise.
+The `Roboto` font is made by Google, and is redistributed under the [OFL 1.1](./assets/Roboto-Regular-LICENSE) license.
