@@ -8,10 +8,10 @@
 
 
 void GameWorld::init_world(sf::Vector2f size) {
-    sf::Vector2f TileSize = sf::Vector2f(size.x / tilesPerRow, size.y / tilesPerRow);
-    for (int y = 0; y < size.y; y += TileSize.y) 
-        for (int x = 0; x < size.x; x += TileSize.x)
-            tileGrid.push_back(std::make_unique<Tile>(sf::Vector2f(x, y), TileSize));
+    sf::Vector2f TileSize = sf::Vector2f(std::min(size.x / tilesPerRow, size.y / numRows), std::min(size.x / tilesPerRow, size.y / numRows));
+    for (int y = 0; y < numRows; y += 1)
+        for (int x = 0; x < tilesPerRow; x += 1)
+            tileGrid.push_back(std::make_unique<Tile>(sf::Vector2f(x*TileSize.x, y*TileSize.y), TileSize));
 }
 
 // i am not proud of this implementation
@@ -30,7 +30,7 @@ std::array<Neighbor, 4> GameWorld::get_neighbors(std::vector<std::unique_ptr<Til
     if (idx >= tilesPerRow) {
         arr[2] = Neighbor{Direction::Up, (iter-tilesPerRow)->get(), (iter-tilesPerRow)};
     }
-    if (idx <= (tilesPerRow*tilesPerRow-tilesPerRow-1)) {
+    if (idx <= (tilesPerRow*numRows-tilesPerRow-1)) {
         arr[3] = Neighbor{Direction::Down, (iter+tilesPerRow)->get(), (iter+tilesPerRow)};
     }
 
