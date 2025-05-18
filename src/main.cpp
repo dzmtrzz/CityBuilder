@@ -138,6 +138,8 @@ void Game::logic() {
 int Game::run() {
     Tile::init_texture("assets/grass.png");
 
+    window.setFramerateLimit(120);
+
     world.init_world(sf::Vector2f(GameRes.width, GameRes.height));
 
     buttons.push_back(std::make_unique<Button>(sf::Vector2f(0, GameRes.height-30), sf::Vector2f(30, 30), std::function<void(Game&)>([](Game& game) {game.setCurrentBuildingType(Building_Current::None);})));
