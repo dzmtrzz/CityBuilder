@@ -26,7 +26,6 @@ void Game::inputHandler() {
                     for (const auto& button : buttons) {
                         if (button->get_shape().getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
                             button->click(*this);
-                            uilogic();
                             return; // if we click a button, we don't want to click a tile, do we?
                         }
                     }
@@ -49,10 +48,6 @@ void Game::inputHandler() {
 
                                 tile->update(a);
                             }
-
-
-                            text_elements[0]->setSecondaryText(std::format("{}", money));
-                            text_elements[0]->update();
 
                             for (const auto& neighbor : a) {
                                 if (neighbor.tile != nullptr) {
@@ -81,7 +76,6 @@ void Game::inputHandler() {
                 default:
                     break;
             }
-            uilogic();
         }
     }
 }
@@ -120,19 +114,28 @@ void Game::uilogic() {
         buttons[1]->update(false);
         buttons[2]->update(true);
     }
+
+    text_elements[0]->setSecondaryText(std::format("{}", money));
+    text_elements[0]->update();
 }
 
 
 void Game::logic() {
     sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
-
+    if (logicClock.getElapsedTime().asSeconds() >= 3)
+        logicTime = logicClock.restart();
     for (const auto& tile : world.getTileGrid()) {
         if (tile->getTile().getGlobalBounds().contains(mousePos)) {
             tile->getTile().setOutlineThickness(-5);
         } else tile->getTile().setOutlineThickness(0);
+
+        if (tile->getState() == Building_Current::House) { //at some point this will have to be remade, but right now we only have one type of building that would generate money
+            money += 10 * (logicTime.asSeconds()/3);
+        }
     }
 
+    logicTime = sf::Time::Zero;
 }
 
 int Game::run() {
@@ -160,9 +163,12 @@ int Game::run() {
     while (window.isOpen())
     {
         inputHandler();
+
         logic();
+        uilogic();
 
         render();
+
     }
     return 0;
 }

@@ -42,7 +42,10 @@ class Game {
 
         void render();
         void inputHandler();
+
+        sf::Clock logicClock;
         void logic();
+        sf::Time logicTime;
 
         //TODO: come up with a better name :P
         void uilogic();
