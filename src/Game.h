@@ -17,7 +17,7 @@ class GameWorld {
         const int numRows;
         std::vector<std::unique_ptr<Tile>> tileGrid;
     public:
-        explicit GameWorld(int tilesPerRow, int numRows) : tilesPerRow(tilesPerRow), numRows(numRows) {}
+        explicit GameWorld(const int tilesPerRow, const int numRows) : tilesPerRow(tilesPerRow), numRows(numRows) {}
         void init_world(sf::Vector2f size);
         std::vector<std::unique_ptr<Tile>>& getTileGrid() {return tileGrid;}
         [[nodiscard]] std::array<Neighbor, 4> get_neighbors(std::vector<std::unique_ptr<Tile>>::const_iterator iter) const;
@@ -49,8 +49,7 @@ class Game {
         void logic();
         sf::Time logicTime;
 
-        //TODO: come up with a better name :P
-        void uilogic();
+        void uiLogic();
     public:
         explicit Game(sf::VideoMode resolution, std::string  title, int tilesPerRow, int numRows) : GameRes(resolution), GameTitle(std::move(title)), world(GameWorld(tilesPerRow, numRows)) {}
         void setCurrentBuildingType(Building_Current type) {selectedBuildingType = type;}

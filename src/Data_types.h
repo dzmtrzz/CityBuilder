@@ -18,8 +18,7 @@ enum class Building_Current {
 };
 
 struct Neighbor {
-    Direction direction;
-    // Building_Current building;
+    Direction direction = Direction::Null;
     Tile *tile = nullptr;
     std::vector<std::unique_ptr<Tile>>::const_iterator it;
 };

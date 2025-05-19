@@ -98,7 +98,7 @@ void Game::render() {
     window.display();
 }
 
-void Game::uilogic() {
+void Game::uiLogic() {
     if (selectedBuildingType == Building_Current::None) {
         buttons[0]->update(true);
         buttons[1]->update(false);
@@ -163,7 +163,7 @@ int Game::run() {
         inputHandler();
 
         logic();
-        uilogic();
+        uiLogic();
 
         render();
 

@@ -21,11 +21,11 @@ class Tile {
         static void init_texture(const std::string& path);
 
         explicit Tile(sf::Vector2f pos, sf::Vector2f size);
-        void update(std::array<Neighbor, 4> neighbor_tiles) {if (building != nullptr) building->update(neighbor_tiles);};
+        void update(const std::array<Neighbor, 4>& neighbor_tiles) {if (building != nullptr) building->update(neighbor_tiles);}
 
         [[nodiscard]] Building_Current getState() const {return state;};
         void setState(Building_Current new_state); // make sure to change `building` along with state
 
-        const sf::Sprite& getBuildingSprite() const {return building->getSprite();};
-        sf::RectangleShape& getTile() {return *tile;};
+        [[nodiscard]] const sf::Sprite& getBuildingSprite() const {return building->getSprite();};
+        sf::RectangleShape& getTile() {return *tile;}
 };

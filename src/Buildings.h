@@ -16,7 +16,7 @@ class Building {
         virtual ~Building() = default;
         virtual void update(std::array<Neighbor, 4>) = 0;
         void setPosSize(sf::Vector2f pos, sf::Vector2f size);
-        [[nodiscard]] const sf::Sprite& getSprite() const {return *sprite;};
+        [[nodiscard]] const sf::Sprite& getSprite() const {return *sprite;}
         void setPos();
 };
 
@@ -26,9 +26,8 @@ class Road : public Building {
         static std::array<sf::Texture, 4> road_textures;
     public:
         Road(sf::Vector2f pos, sf::Vector2f size);
-        ~Road() = default;
         static void load_textures(const std::string& straight, const std::string& corner, const std::string& intersection, const std::string& tshape);
-        void update(std::array<Neighbor, 4>);
+        void update(std::array<Neighbor, 4>) override;
 };
 
 class House : public Building {
@@ -37,6 +36,5 @@ class House : public Building {
     public:
         static void init_texture(const std::string& path);
         House(sf::Vector2f pos, sf::Vector2f size);
-        ~House() = default;
-        void update(std::array<Neighbor, 4>) override {};
+        void update(std::array<Neighbor, 4>) override {}
 };
