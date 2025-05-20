@@ -47,6 +47,18 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install SFML (Linux)
+      if: runner.os == 'Linux'
+      run: sudo apt-get update && sudo apt-get install -y libsfml-dev
+
+    - name: Install SFML via vcpkg (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        git clone https://github.com/microsoft/vcpkg.git
+        .\vcpkg\bootstrap-vcpkg.bat
+        .\vcpkg\vcpkg install sfml:x64-windows
+      shell: pwsh
+
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
       id: strings
