@@ -1,4 +1,3 @@
-#pragma once
 #include "VFX.h"
 #include <SFML/Graphics.hpp>
 
