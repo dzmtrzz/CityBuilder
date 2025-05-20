@@ -13,7 +13,6 @@
 #include <vector>
 
 
-
 void Game::inputHandler() {
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -40,16 +39,17 @@ void Game::inputHandler() {
                             if (selectedBuildingType != tile->getState()) {
                                 if (money + BuildCost[tile->getState()]/2 >= BuildCost[selectedBuildingType]) {
                                     money += BuildCost[tile->getState()]/2;
+                                    if (tile->getState() != Building_Current::None) tile->setTileEffect();
                                     tile->setState(selectedBuildingType);
                                     money -= BuildCost[selectedBuildingType];
 
-                                    tile->update(a);
+                                    tile->updateBuilding(a);
                                 }
                             }
 
                             for (const auto& neighbor : a) {
                                 if (neighbor.tile != nullptr) {
-                                    neighbor.tile->update(world.get_neighbors(neighbor.it));
+                                    neighbor.tile->updateBuilding(world.get_neighbors(neighbor.it));
                                 }
                             }
                         }
@@ -83,10 +83,10 @@ void Game::render() {
 
     for (const auto& tile : world.getTileGrid()) {
         window.draw(tile->getTile());
-        if (tile->getState() == Building_Current::House)
+        if (tile->getState() != Building_Current::None)
             window.draw(tile->getBuildingSprite());
-        if (tile->getState() == Building_Current::Road)
-            window.draw(tile->getBuildingSprite());
+        if (tile->getTileEffect() != nullptr)
+            window.draw(tile->getTileEffect()->get_drawable(), tile->getTile().getTransform());
     }
 
     for (const auto& button : buttons) {
@@ -131,6 +131,8 @@ void Game::logic() {
         if (tile->getState() == Building_Current::House) { //at some point this will have to be remade, but right now we only have one type of building that would generate money
             money += 10 * (logicTime.asSeconds()/3);
         }
+
+        tile->updateEffect();
     }
 
     logicTime = sf::Time::Zero;
@@ -157,6 +159,8 @@ int Game::run() {
     TextElement::load_font("assets/Roboto-Regular.ttf");
 
     text_elements.push_back(std::make_unique<TextElement>("Money amount:", std::format("{}", money), sf::Vector2f(0,0)));
+
+    Explosion::init_texture("assets/expl.png");
 
     while (window.isOpen())
     {
