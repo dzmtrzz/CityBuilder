@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Find SFML
-find_package(SFML 2.6.2 COMPONENTS graphics window system REQUIRED)
+find_package(SFML 2.6.1 COMPONENTS graphics window system REQUIRED)
 
 add_executable(CityBuilder src/main.cpp src/world.cpp src/Tile.cpp src/Buildings.cpp
         src/UIElements.cpp
