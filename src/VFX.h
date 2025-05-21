@@ -18,7 +18,7 @@ class Explosion : public TileEffect {
         sf::Clock internal_clock;
         sf::Time internal_time = sf::Time::Zero;
     public:
-        Explosion();
+        Explosion(sf::Vector2f size);
         static void init_texture(const std::string& path);
         sf::Drawable& get_drawable() override {return m_sprite;}
         void update() override;

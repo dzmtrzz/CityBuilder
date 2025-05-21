@@ -9,8 +9,10 @@ void Explosion::init_texture(const std::string& path) {
     }
 }
 
-Explosion::Explosion() {
+Explosion::Explosion(sf::Vector2f size) {
     m_sprite.setTexture(m_texture);
+    m_sprite.setScale({size.x / 100, size.y / 100});
+
 }
 
 void Explosion::update() {

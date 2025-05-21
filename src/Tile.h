@@ -34,5 +34,5 @@ class Tile {
         sf::RectangleShape& getTile() {return *tile;}
 
         [[nodiscard]] TileEffect* getTileEffect() const {return effect.get();}
-        void setTileEffect() {effect = std::make_unique<Explosion>();}
+        void setTileEffect() {effect = std::make_unique<Explosion>(size);}
 };
