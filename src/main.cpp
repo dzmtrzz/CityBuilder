@@ -123,7 +123,6 @@ void Game::logic() {
 
     if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
         mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-        mousePos2 = mousePos;
         offset = {0, 0};
     }
     else {
