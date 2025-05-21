@@ -84,7 +84,7 @@ void Game::render() {
     for (const auto& tile : world.getTileGrid()) {
         window.draw(tile->getTile());
         if (tile->getState() != Building_Current::None)
-            window.draw(tile->getBuildingSprite());
+            window.draw(tile->getBuildingSprite(), tile->getTile().getTransform());
         if (tile->getTileEffect() != nullptr)
             window.draw(tile->getTileEffect()->get_drawable(), tile->getTile().getTransform());
     }
@@ -119,7 +119,22 @@ void Game::uiLogic() {
 
 
 void Game::logic() {
-    sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+    sf::Vector2f mousePos2;
+
+    if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
+        mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+        mousePos2 = mousePos;
+        offset = {0, 0};
+    }
+    else {
+        mousePos2 = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+        offset = mousePos2 - mousePos;
+        mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+    }
+
+
+
+    globalTransform.translate(mousePos.x - mousePos2.x, mousePos.y - mousePos2.y);
 
     if (logicClock.getElapsedTime().asSeconds() >= 3)
         logicTime = logicClock.restart();
@@ -132,8 +147,12 @@ void Game::logic() {
             money += 10 * (logicTime.asSeconds()/3);
         }
 
+        tile->getTile().move(offset);
+
         tile->updateEffect();
     }
+
+
 
     logicTime = sf::Time::Zero;
 }
@@ -176,7 +195,7 @@ int Game::run() {
 }
 
 int main() {
-    Game game(sf::VideoMode(960, 960), "CityBuilder", 10, 10);
+    Game game(sf::VideoMode(960, 960), "CityBuilder", 40, 40);
 
     game.run();
     return 0;

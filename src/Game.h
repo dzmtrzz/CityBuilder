@@ -35,12 +35,17 @@ class Game {
 
         Building_Current selectedBuildingType = Building_Current::None;
 
+        sf::Vector2f mousePos;
+        sf::Vector2f offset;
+
         int money=500;
         std::map<Building_Current, int> BuildCost {
             {Building_Current::House, 50},
             {Building_Current::Road, 10},
             {Building_Current::None, 0}
         };
+
+        sf::Transform globalTransform;
 
         void render();
         void inputHandler();

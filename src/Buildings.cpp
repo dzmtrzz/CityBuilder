@@ -94,7 +94,7 @@ void Road::update(std::array<Neighbor, 4> arr) {
 Road::Road(sf::Vector2f pos, sf::Vector2f size) {
     tilePos = pos; tileSize = size;
 
-    sprite->setPosition({pos.x + size.x/2, pos.y + size.y/2});
+    sprite->setPosition({size.x/2, size.y/2});
     sprite->setScale({size.x / 100, size.y / 100});
 }
 
@@ -108,9 +108,9 @@ House::House(sf::Vector2f pos, sf::Vector2f size) {
     tilePos = pos; tileSize = size;
 
     sprite->setTexture(texture);
-    sprite->setPosition({pos.x + size.x/2, pos.y + size.y/2});
-    sprite->setScale({size.x / texture.getSize().x, size.y / texture.getSize().y});
-    sprite->setOrigin(sprite->getLocalBounds().width/2, sprite->getLocalBounds().height/2); 
+    sprite->setPosition({size.x/2, size.y/2});
+    sprite->setScale({size.x / 100, size.y / 100});
+    sprite->setOrigin(sprite->getLocalBounds().width/2, sprite->getLocalBounds().height/2);
     sprite->setRotation((90*(random()%4))); 
 
     //update(std::array<Neighbor, 4>) // yea
