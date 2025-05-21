@@ -9,6 +9,8 @@
 
 void GameWorld::init_world(sf::Vector2f size) {
     sf::Vector2f TileSize = sf::Vector2f(std::min(size.x / tilesPerRow, size.y / numRows), std::min(size.x / tilesPerRow, size.y / numRows));
+    if (TileSize.x < 74)
+        TileSize = {74, 74};
     for (int y = 0; y < numRows; y += 1)
         for (int x = 0; x < tilesPerRow; x += 1)
             tileGrid.push_back(std::make_unique<Tile>(sf::Vector2f(x*TileSize.x, y*TileSize.y), TileSize));
