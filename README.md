@@ -7,6 +7,8 @@ Q: Destruction mode\
 W: Build houses\
 E: Build roads
 
+You can move the map by holding the right mouse button and moving the cursor.
+
 (you can also use the buttons in the bottom left corner)
 
 # Building:
