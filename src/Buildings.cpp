@@ -92,7 +92,7 @@ void Road::update(std::array<Neighbor, 4> arr) {
 }
 
 Road::Road(sf::Vector2f pos, sf::Vector2f size) {
-    tilePos = pos; tileSize = size;
+    tileSize = size;
 
     sprite->setPosition({size.x/2, size.y/2});
     sprite->setScale({size.x / 100, size.y / 100});
@@ -105,7 +105,7 @@ void House::init_texture(const std::string& path) {
 }
 
 House::House(sf::Vector2f pos, sf::Vector2f size) {
-    tilePos = pos; tileSize = size;
+    tileSize = size;
 
     sprite->setTexture(texture);
     sprite->setPosition({size.x/2, size.y/2});
