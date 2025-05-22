@@ -10,7 +10,7 @@ void Tile::init_texture(const std::string &path) {
     is_texture_loaded = true;
 }
 
-Tile::Tile(sf::Vector2f pos, sf::Vector2f size) : pos(pos), size(size) {
+Tile::Tile(sf::Vector2f pos, sf::Vector2f size) {
     tile->setSize(size);
     tile->setPosition(pos);
     tile->setTexture(&tileTexture);
@@ -22,11 +22,11 @@ void Tile::setState(Building_Current new_state) {
 
     state = new_state;
     if (new_state == Building_Current::Road) {
-        building = std::make_unique<Road>(pos, size);
+        building = std::make_unique<Road>(tile->getSize());
     }
 
     if (new_state == Building_Current::House) {
-        building = std::make_unique<House>(pos, size);
+        building = std::make_unique<House>(tile->getSize());
     }
 
     if (new_state == Building_Current::None) {
