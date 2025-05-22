@@ -75,6 +75,9 @@ void Game::inputHandler() {
                     break;
             }
         }
+        if (event.type == sf::Event::MouseWheelScrolled) {
+            world.scale(1.f + event.mouseWheelScroll.delta/20);
+        }
     }
 }
 
@@ -121,6 +124,8 @@ void Game::uiLogic() {
 void Game::logic() {
     sf::Vector2f mousePos2;
 
+    //TODO: viewport-based approach for this
+    //  it would probably make a whole lot more sense *shrug*
     if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
         mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
         offset = {0, 0};
@@ -131,9 +136,6 @@ void Game::logic() {
         mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
     }
 
-
-
-    globalTransform.translate(mousePos.x - mousePos2.x, mousePos.y - mousePos2.y);
 
     if (logicClock.getElapsedTime().asSeconds() >= 3)
         logicTime = logicClock.restart();
@@ -194,7 +196,7 @@ int Game::run() {
 }
 
 int main() {
-    Game game(sf::VideoMode(960, 960), "CityBuilder", 40, 40);
+    Game game(sf::VideoMode(1280, 720), "CityBuilder", 40, 30);
 
     game.run();
     return 0;
