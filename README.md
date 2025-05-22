@@ -7,9 +7,10 @@ Q: Destruction mode\
 W: Build houses\
 E: Build roads
 
-You can move the map by holding the right mouse button and moving the cursor.
-
 (you can also use the buttons in the bottom left corner)
+
+You can move the map by holding the right mouse button and moving the cursor.
+You can zoom in/out by using the scroll wheel.
 
 # Building:
 Building is done via CMake, the only required dependency is SFML-devel.
