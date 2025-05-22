@@ -2,13 +2,15 @@
 #include "Game.h"
 #include <algorithm>
 #include <array>
+#include <cmath>
+#include <iostream>
 #include <memory>
 #include <vector>
 #include "Tile.h"
 
 
 void GameWorld::init_world(sf::Vector2f size) {
-    sf::Vector2f TileSize = sf::Vector2f(std::min(size.x / tilesPerRow, size.y / numRows), std::min(size.x / tilesPerRow, size.y / numRows));
+    sf::Vector2f TileSize = sf::Vector2f(std::max(size.x / tilesPerRow, size.y / numRows), std::max(size.x / tilesPerRow, size.y / numRows));
     if (TileSize.x < 74)
         TileSize = {74, 74};
     for (int y = 0; y < numRows; y += 1)
@@ -38,4 +40,25 @@ std::array<Neighbor, 4> GameWorld::get_neighbors(std::vector<std::unique_ptr<Til
 
 
     return arr;
+}
+
+
+void GameWorld::scale(const float factor) {
+    const sf::Vector2f originalSize = tileGrid[0].get()->getTile().getSize();
+    const sf::Vector2f newSize = {originalSize.x*factor, originalSize.y*factor};
+
+    int idx = 0;
+    for (auto& tile : tileGrid) {
+        sf::Vector2f moveFactor = originalSize - newSize;
+
+        moveFactor.x *= -idx%tilesPerRow;
+        moveFactor.y *= -std::floor(idx/tilesPerRow);
+
+        tile->getTile().setSize(newSize);
+        tile->getTile().move(moveFactor);
+
+        tile->updateBuildingSize(tile->getTile().getSize());
+
+        idx++;
+    }
 }

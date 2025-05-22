@@ -21,13 +21,14 @@ class GameWorld {
         void init_world(sf::Vector2f size);
         std::vector<std::unique_ptr<Tile>>& getTileGrid() {return tileGrid;}
         [[nodiscard]] std::array<Neighbor, 4> get_neighbors(std::vector<std::unique_ptr<Tile>>::const_iterator iter) const;
+        void scale(float factor);
 };
 
 class Game {
     private:
         sf::VideoMode GameRes;
         std::string GameTitle;
-        sf::RenderWindow window = sf::RenderWindow(GameRes, GameTitle);
+        sf::RenderWindow window = sf::RenderWindow(GameRes, GameTitle, sf::Style::Resize | sf::Style::Close);
 
         GameWorld world;
         std::vector<std::unique_ptr<Button>> buttons;
