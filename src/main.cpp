@@ -12,12 +12,19 @@
 #include <utility>
 #include <vector>
 
-
 void Game::inputHandler() {
     sf::Event event;
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed)
             window.close();
+        if (event.type == sf::Event::Resized) {
+            // resize my view
+            view.setSize({
+                    static_cast<float>(event.size.width),
+                    static_cast<float>(event.size.height)
+            });
+            window.setView(view);
+        }
         if (event.type == event.MouseButtonPressed)
             switch (event.mouseButton.button) {
                 case (sf::Mouse::Left):
@@ -118,29 +125,33 @@ void Game::uiLogic() {
 
     text_elements[0]->setSecondaryText(std::format("{}", money));
     text_elements[0]->update();
+
+    int position = 0;
+    for (const auto& elem : buttons) {
+        elem->setPosition(window.mapPixelToCoords(sf::Vector2i(position, view.getSize().y - 30)));
+        position += 30;
+    }
+
+    text_elements[0]->setPosition(window.mapPixelToCoords(sf::Vector2i(0, 0)));
 }
 
 
 void Game::logic() {
-    sf::Vector2f mousePos2;
-
-    //TODO: viewport-based approach for this
-    //  it would probably make a whole lot more sense *shrug*
     if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-        mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-        offset = {0, 0};
+        mousePos = sf::Mouse::getPosition(window);
     }
     else {
-        mousePos2 = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-        offset = mousePos2 - mousePos;
-        mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+        mousePos2 = sf::Mouse::getPosition(window);
+        offset += -(window.mapPixelToCoords(mousePos2) - window.mapPixelToCoords(mousePos));
+        mousePos = sf::Mouse::getPosition(window);
+        view.setCenter(offset);
     }
 
 
     if (logicClock.getElapsedTime().asSeconds() >= 3)
         logicTime = logicClock.restart();
     for (const auto& tile : world.getTileGrid()) {
-        if (tile->getTile().getGlobalBounds().contains(mousePos)) {
+        if (tile->getTile().getGlobalBounds().contains(window.mapPixelToCoords(mousePos))) {
             tile->getTile().setOutlineThickness(-5);
         } else tile->getTile().setOutlineThickness(0);
 
@@ -148,12 +159,10 @@ void Game::logic() {
             money += 10 * (logicTime.asSeconds()/3);
         }
 
-        tile->getTile().move(offset);
-
         tile->updateEffect();
     }
 
-
+    window.setView(view);
 
     logicTime = sf::Time::Zero;
 }

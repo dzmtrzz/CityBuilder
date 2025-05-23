@@ -7,9 +7,12 @@ class Game; //this feels wrong
 
 
 class UIElement {
+    protected:
+        sf::Vector2f position;
     public:
         virtual ~UIElement() = default;
         [[nodiscard]] virtual sf::Drawable& get_drawable() = 0;
+        virtual void setPosition(sf::Vector2f position) = 0;
         // virtual void update() = 0;
 };
 
@@ -26,6 +29,8 @@ class TextElement : public UIElement {
 
         void setPrimaryText(const std::string& text) {primary_text = text;}
         void setSecondaryText(const std::string& text) {secondary_text = text;}
+
+        void setPosition(sf::Vector2f position) override {m_text.setPosition(position);}
 
         void update();
 
@@ -44,6 +49,8 @@ class Button : public UIElement {
 
         [[nodiscard]] sf::Drawable& get_drawable() override {return *button;}
         [[nodiscard]] sf::RectangleShape& get_shape() const {return *button;}
+
+        void setPosition(sf::Vector2f position) override {button->setPosition(position);}
 
         void click(Game& game) {on_click(game);}
         void update(bool is_selected);

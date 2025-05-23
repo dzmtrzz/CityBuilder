@@ -30,14 +30,17 @@ class Game {
         std::string GameTitle;
         sf::RenderWindow window = sf::RenderWindow(GameRes, GameTitle, sf::Style::Resize | sf::Style::Close);
 
+        sf::View view;
+
         GameWorld world;
         std::vector<std::unique_ptr<Button>> buttons;
         std::vector<std::unique_ptr<TextElement>> text_elements;
 
         Building_Current selectedBuildingType = Building_Current::None;
 
-        sf::Vector2f mousePos;
-        sf::Vector2f offset;
+        sf::Vector2i mousePos;
+        sf::Vector2i mousePos2;
+        sf::Vector2f offset = {0.f, 0.f};
 
         int money=500;
         std::map<Building_Current, int> BuildCost {
