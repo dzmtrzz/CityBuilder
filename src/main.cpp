@@ -83,7 +83,7 @@ void Game::inputHandler() {
             }
         }
         if (event.type == sf::Event::MouseWheelScrolled) {
-            world.scale(1.f + event.mouseWheelScroll.delta/20);
+            world.scale(1.f + event.mouseWheelScroll.delta/20, window.mapPixelToCoords(sf::Mouse::getPosition(window)));
         }
     }
 }

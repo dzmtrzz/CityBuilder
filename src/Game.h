@@ -21,7 +21,7 @@ class GameWorld {
         void init_world(sf::Vector2f size);
         std::vector<std::unique_ptr<Tile>>& getTileGrid() {return tileGrid;}
         [[nodiscard]] std::array<Neighbor, 4> get_neighbors(std::vector<std::unique_ptr<Tile>>::const_iterator iter) const;
-        void scale(float factor);
+        void scale(float factor, sf::Vector2f mouseWorldPos);
 };
 
 class Game {

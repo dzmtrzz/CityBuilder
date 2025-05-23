@@ -19,7 +19,7 @@ void GameWorld::init_world(sf::Vector2f size) {
 }
 
 // i am not proud of this implementation
-std::array<Neighbor, 4> GameWorld::get_neighbors(std::vector<std::unique_ptr<Tile>>::const_iterator iter) const { //theres a weird bug where at 50*x + 25 neighboring tiles are offset by x+1, this function is probably the culprit
+std::array<Neighbor, 4> GameWorld::get_neighbors(std::vector<std::unique_ptr<Tile>>::const_iterator iter) const {
     int idx = static_cast<int>(iter - tileGrid.begin());
 
     std::array<Neighbor, 4> arr;
@@ -43,22 +43,22 @@ std::array<Neighbor, 4> GameWorld::get_neighbors(std::vector<std::unique_ptr<Til
 }
 
 
-void GameWorld::scale(const float factor) {
-    const sf::Vector2f originalSize = tileGrid[0].get()->getTile().getSize();
-    const sf::Vector2f newSize = {originalSize.x*factor, originalSize.y*factor};
+void GameWorld::scale(const float factor, const sf::Vector2f mouseWorldPos) {
+    const sf::Vector2f currentReferenceTileSize = tileGrid[0]->getTile().getSize();
+    const sf::Vector2f newGlobalTileSize = {currentReferenceTileSize.x * factor, currentReferenceTileSize.y * factor};
 
-    int idx = 0;
-    for (auto& tile : tileGrid) {
-        sf::Vector2f moveFactor = originalSize - newSize;
+    for (const auto& tilePtr : tileGrid) {
+        sf::RectangleShape& tileShape = tilePtr->getTile();
 
-        moveFactor.x *= -idx%tilesPerRow;
-        moveFactor.y *= -std::floor(idx/tilesPerRow);
+        sf::Vector2f currentTilePos = tileShape.getPosition();
 
-        tile->getTile().setSize(newSize);
-        tile->getTile().move(moveFactor);
+        sf::Vector2f scaledVecAnchorToTile = (currentTilePos - mouseWorldPos) * factor;
 
-        tile->updateBuildingSize(tile->getTile().getSize());
+        sf::Vector2f newTilePos = mouseWorldPos + scaledVecAnchorToTile;
 
-        idx++;
+        tileShape.setSize(newGlobalTileSize);
+        tileShape.setPosition(newTilePos);
+
+        tilePtr->updateBuildingSize(newGlobalTileSize);
     }
 }
