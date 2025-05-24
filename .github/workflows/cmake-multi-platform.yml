@@ -19,7 +19,7 @@ jobs:
             cpp_compiler: cl
             build_type: Release
             name: "Windows MSVC"
-            vcpkg_triplet: x64-windows # Standard vcpkg triplet for 64-bit Windows
+            vcpkg_triplet: x64-windows
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
@@ -45,60 +45,62 @@ jobs:
         cd vcpkg
         ./bootstrap-vcpkg.bat -disableMetrics
         ./vcpkg install sfml:${{ matrix.vcpkg_triplet }} --recurse
-      shell: pwsh
-      # working-directory default is github.workspace, so vcpkg is cloned into github.workspace/vcpkg
+      shell: pwsh # PowerShell is good for these Windows commands
 
     - name: Set reusable strings
       id: strings
-      shell: bash
+      shell: bash # bash is fine for echo and GITHUB_OUTPUT
       run: |
+        # github.workspace on Windows is like D:\a\repo\repo. Appending /build makes it D:\a\repo\repo/build
+        # CMake handles mixed slashes well. The key is quoting these paths when used in bash commands later.
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
         if [[ "${{ runner.os }}" == "Windows" ]]; then
-          # For multi-config generators like MSVC, output is in build/<Config>
           echo "artifact-output-dir=${{ github.workspace }}/build/${{ matrix.build_type }}" >> "$GITHUB_OUTPUT"
         else
-          # For single-config generators, output is directly in build dir
           echo "artifact-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
         fi
 
     - name: Configure CMake (Windows)
       if: runner.os == 'Windows'
+      # Using bash, so paths (especially those with backslashes from github.workspace) must be quoted.
+      shell: bash
       run: >
-        cmake -B ${{ steps.strings.outputs.build-output-dir }}
+        cmake -B "${{ steps.strings.outputs.build-output-dir }}"
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
+        -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
         -DVCPKG_TARGET_TRIPLET=${{ matrix.vcpkg_triplet }}
-        -S ${{ github.workspace }}
-      shell: bash # Using bash for consistency, but default would also work
+        -S "${{ github.workspace }}"
 
     - name: Configure CMake (Linux)
       if: runner.os == 'Linux'
+      # Quoting paths is good practice everywhere, though less critical for typical Linux paths.
+      shell: bash
       run: >
-        cmake -B ${{ steps.strings.outputs.build-output-dir }}
+        cmake -B "${{ steps.strings.outputs.build-output-dir }}"
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -S ${{ github.workspace }}
-      shell: bash # Using bash for consistency
+        -S "${{ github.workspace }}"
 
     - name: Build
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
-      shell: bash # Using bash for consistency
+      # Quoting the build directory path.
+      shell: bash
+      run: cmake --build "${{ steps.strings.outputs.build-output-dir }}" --config ${{ matrix.build_type }}
 
     - name: List build artifacts (for debugging)
-      if: always() # Run even if previous steps fail, to aid debugging
+      if: always()
       shell: bash
       run: |
         echo "Listing content of build directory: ${{ steps.strings.outputs.build-output-dir }}"
-        ls -R ${{ steps.strings.outputs.build-output-dir }}
+        ls -R "${{ steps.strings.outputs.build-output-dir }}" || echo "Build output directory not found or empty."
         echo "Expected artifact output directory: ${{ steps.strings.outputs.artifact-output-dir }}"
-        ls -R ${{ steps.strings.outputs.artifact-output-dir }} || echo "Artifact output directory not found or empty."
+        ls -R "${{ steps.strings.outputs.artifact-output-dir }}" || echo "Artifact output directory not found or empty."
 
     - name: Upload build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.name }}-${{ matrix.build_type }}-Build-Output
+        name: ${{ matrix.name }}-${{ matrix.build_type }}-Build-Output-${{ runner.os }}
         path: ${{ steps.strings.outputs.artifact-output-dir }}
-        if-no-files-found: warn # Use 'error' if an empty artifact is a failure
+        if-no-files-found: warn
